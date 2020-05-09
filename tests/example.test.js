@@ -1,6 +1,9 @@
 const puppeteer = require('puppeteer')
 const expect = require('chai').expect
 
+const { click, getText, getCount, shouldNotExist } = require('../lib/helpers')
+// const {autoScroll} = require('../lib/helpers')
+
 describe('My first puppeteer test', () => {
 	let browser
 	let page
@@ -21,11 +24,11 @@ describe('My first puppeteer test', () => {
 	})
 
 	beforeEach(async function () {
-    // Runs before each test's step
-    })
-    afterEach(async function () {
-        // Runs after each test's step
-    })
+		// Runs before each test's step
+	})
+	afterEach(async function () {
+		// Runs after each test's step
+	})
 	it('Should launch browser', async () => {
 		await page.setExtraHTTPHeaders({ DNT: '1' })
 
@@ -33,8 +36,8 @@ describe('My first puppeteer test', () => {
 		await page.waitForXPath('//h1')
 		const title = await page.title()
 		const url = await page.url()
-		const text = await page.$eval('h1', element => element.textContent)
-		const count = await page.$$eval('p', element => element.length)
+		const text = await getText(page, 'h1')
+		const count = await getCount(page, 'p')
 
 		expect(title).to.be.a('string', 'Example Domain')
 		expect(url).to.include('example.com')
@@ -42,36 +45,14 @@ describe('My first puppeteer test', () => {
 		expect(count).to.equal(2)
 
 		await page.goto('http://zero.webappsecurity.com/')
-		await page.waitForSelector('#signin_button')
-		await page.click('#signin_button')
+		await click(page, '#signin_button')
 
-		await page.waitFor(() => !document.querySelector('#signin_button'))
-		await page.waitForSelector('#signin_button', {
-			hidden: true,
-			timeout: 3000,
-		})
+		// await page.waitFor(() => !document.querySelector('#signin_button'))
+		// await page.waitForSelector('#signin_button', {
+		//     hidden: true,
+		//     timeout: 3000,
+		// })
+		await page.waitFor(2000)
+		await shouldNotExist(page, '#signin_button')
 	})
 })
-
-async function autoScroll(page, height) {
-	await page.evaluate(async () => {
-		await new Promise((resolve, reject) => {
-			try {
-				var totalHeight = 0
-				var distance = 100
-				var timer = setInterval(() => {
-					var scrollHeight = height
-					window.scrollBy(0, distance)
-					totalHeight += distance
-
-					if (totalHeight >= scrollHeight) {
-						clearInterval(timer)
-						resolve()
-					}
-				}, 100)
-			} catch (err) {
-				reject(err)
-			}
-		})
-	})
-}
