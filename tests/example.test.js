@@ -11,7 +11,7 @@ describe('My first puppeteer test', () => {
 			devtools: false,
 			args: ['--start-fullscreen'],
 		})
-		page = browser.newPage()
+		page = await browser.newPage()
 		await page.setDefaultTimeout(10000)
 		await page.setDefaultNavigationTimeout(20000)
 	})
