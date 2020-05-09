@@ -1,0 +1,19 @@
+{
+  "name": "opn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./node_modules/mocha/bin/mocha --timeout=30000 ./tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "automation": "0.0.0",
+    "chai": "^4.2.0",
+    "mocha": "^7.1.2",
+    "prettier": "^2.0.5",
+    "puppeteer": "^3.0.4"
+  }
+}
